@@ -1,0 +1,5 @@
+when HTTP_REQUEST {
+
+    HTTP::respond 200 content "<html><head>Azure</head><body> iWorkflow TEST</body></html>"
+
+}
