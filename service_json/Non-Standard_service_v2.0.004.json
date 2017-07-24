@@ -1,0 +1,81 @@
+{
+  "name": "appsvcs_name",
+  "tenantTemplateReference": {
+    "link": "https://localhost/mgmt/cm/cloud/tenant/templates/iapp/appsvcs_template"
+  },
+  "properties": [
+    {
+      "id": "cloudConnectorReference",
+      "value": "https://localhost/mgmt/cm/cloud/connectors/local/iwf_connector_uuid"
+    }
+  ],
+  "vars": [
+    {
+      "name": "pool__addr",
+      "value": "appsvcs_vip_addr"
+    },
+    {
+      "name": "pool__port",
+      "value": "appsvcs_vip_port"
+    }
+  ],
+  "tables": [
+    {
+      "name": "pool__Members",
+      "columns": [
+        "IPAddress",
+        "Port",
+        "State"
+      ],
+      "rows": [
+        [
+          "appsvcs_member1_addr",
+          "appsvcs_member1_port",
+          "enabled"
+        ]
+
+      ]
+    },
+    {
+      "name": "vs__BundledItems",
+      "columns": [
+        "Resource"
+      ],
+      "rows": [
+
+        [
+          "irule:urloptional=appsvcs_irule0"
+        ],
+        [
+          "irule:urloptional=appsvcs_irule1"
+        ],
+        [
+          "irule:urloptional=appsvcs_irule2"
+        ],
+        [
+          "irule:urloptional=appsvcs_irule3"
+        ],
+        [
+          "irule:urloptional=appsvcs_irule4"
+        ],
+        [
+          "irule:urloptional=appsvcs_irule5"
+        ],
+        [
+          "irule:urloptional=appsvcs_irule6"
+        ],
+        [
+          "irule:urloptional=appsvcs_irule7"
+        ],
+        [
+          "irule:urloptional=appsvcs_irule8"
+        ],
+        [
+          "irule:urloptional=appsvcs_irule9"
+        ]
+
+      ]
+
+    }
+  ]
+}

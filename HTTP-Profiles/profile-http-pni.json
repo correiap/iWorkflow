@@ -1,0 +1,8 @@
+			    {
+				    "name": "profile-http-pni",
+				    "defaultsFrom": "/Common/http",
+				    "enforcement": {
+								    "unknownMethod": "allow"
+								    },
+				    "insertXforwardedFor": "disabled"
+			    }

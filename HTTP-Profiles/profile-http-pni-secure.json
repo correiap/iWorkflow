@@ -1,0 +1,9 @@
+			{
+				"name": "profile-http-pni-secure",
+				"defaultsFrom": "/Common/http",
+				"enforcement": {
+								"unknownMethod": "allow"
+								},
+				"insertXforwardedFor": "disabled",
+				"headerInsert": "Original-Protocol:HTTPS"
+			}
