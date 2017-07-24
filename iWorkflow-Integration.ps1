@@ -13,11 +13,6 @@
 param(
 
     
-    #iAppServiceName must be equal to dnslabel - PNI Naming convention
-	[Parameter(Mandatory=$True)]
-    [string]
-    $Key,
-
     [Parameter(Mandatory=$True)]
     [string]
     $Subscription,
@@ -330,7 +325,7 @@ for ($i=1; $i -le $ExistingVMs; $i++ ) {
 	if ($iAppTemplate.items.name -notcontains "appsvcs_integration_v2.0.004") {
 
 
-		$URI = "https://github-key.azurewebsites.net/content/" + $Key + "/master/iWorkflow/iWorkflow/iApp-Integration_json/iWorkflow_appsvcs_integration_v2.0.004.json"
+		$URI = "https://raw.githubusercontent.com/correiap/iWorkflow/master/iApp-Integration_json/iWorkflow_appsvcs_integration_v2.0.004.json"
 		$JSONBody = (Invoke-WebRequest -Uri "$URI" -UseBasicParsing).Content
 		$iAppTemplate = Invoke-RestMethod -Uri "https://$iworkflowMgmt/mgmt/cm/cloud/templates/iapp" -Method POST -Body $JSONBody -ContentType "application/json" -Credential $credential -Insecure
 	}
@@ -347,7 +342,7 @@ for ($i=1; $i -le $ExistingVMs; $i++ ) {
 
 		#HTTP Template
 		$CustomerEnvironmentHTTP = $CustomerEnvironment + "-HTTP"
-		$TemplateURI = "https://github-key.azurewebsites.net/content/" + $Key + "/master/iWorkflow/iWorkflow/Catalogs_json/HTTP-PNI_catalog_multiCC_v2.0.004.json"
+		$TemplateURI = "https://raw.githubusercontent.com/correiap/iWorkflow/master/Catalogs_json/HTTP-PNI_catalog_multiCC_v2.0.004.json"
 		$JSONBody = (Invoke-WebRequest -Uri "$TemplateURI" -UseBasicParsing).Content
 		$JSONBody = $JSONBody -replace "appsvcs_templatename", $CustomerEnvironmentHTTP
 		$iAppServiceTemplate = Invoke-RestMethod -Uri "https://$iworkflowMgmt/mgmt/cm/cloud/provider/templates/iapp" -Method POST -Body $JSONBody -ContentType "application/json" -Credential $credential -Insecure
@@ -355,14 +350,14 @@ for ($i=1; $i -le $ExistingVMs; $i++ ) {
 
 		#HTTPS Template
 		$CustomerEnvironmentHTTPS = $CustomerEnvironment + "-HTTPS"
-		$TemplateURI = "https://github-key.azurewebsites.net/content/" + $Key + "/master/iWorkflow/iWorkflow/Catalogs_json/HTTPS-PNI_catalog_multiCC_v2.0.004.json"
+		$TemplateURI = "https://raw.githubusercontent.com/correiap/iWorkflow/master/Catalogs_json/HTTPS-PNI_catalog_multiCC_v2.0.004.json"
 		$JSONBody = (Invoke-WebRequest -Uri "$TemplateURI" -UseBasicParsing).Content
 		$JSONBody = $JSONBody -replace "appsvcs_templatename", $CustomerEnvironmentHTTPS
 		$iAppServiceTemplate = Invoke-RestMethod -Uri "https://$iworkflowMgmt/mgmt/cm/cloud/provider/templates/iapp" -Method POST -Body $JSONBody -ContentType "application/json" -Credential $credential -Insecure
 
 		#Non-Standard Template
 		$CustomerEnvironmentNS = $CustomerEnvironment + "-NS"
-		$TemplateURI = "https://github-key.azurewebsites.net/content/" + $Key + "/master/iWorkflow/iWorkflow/Catalogs_json/Non-Standard-PNI_catalog_multiCC_v2.0.004.json"
+		$TemplateURI = "https://raw.githubusercontent.com/correiap/iWorkflow/master/Catalogs_json/Non-Standard-PNI_catalog_multiCC_v2.0.004.json"
 		$JSONBody = (Invoke-WebRequest -Uri "$TemplateURI" -UseBasicParsing).Content
 		$JSONBody = $JSONBody -replace "appsvcs_templatename", $CustomerEnvironmentNS
 		$iAppServiceTemplate = Invoke-RestMethod -Uri "https://$iworkflowMgmt/mgmt/cm/cloud/provider/templates/iapp" -Method POST -Body $JSONBody -ContentType "application/json" -Credential $credential -Insecure
@@ -377,7 +372,7 @@ for ($i=1; $i -le $ExistingVMs; $i++ ) {
 	function ConfigureDataGroup ($DataGroupName)
 {
 
-    $URI = "https://github-key.azurewebsites.net/content/" + $Key + "/master/iWorkflow/iWorkflow/data-groups/" + $DataGroupName + ".json"
+    $URI = "https://raw.githubusercontent.com/correiap/iWorkflow/master/data-groups/" + $DataGroupName + ".json"
     $JSONBody = Invoke-RestMethod -Uri "$URI"  | ConvertTo-Json
     $URI = "https://" + $iworkflowMgmt + "/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/" + $DGuuid + "/rest-proxy/mgmt/tm/ltm/dataGroup/internal/"
     $DataGroupPost = Invoke-RestMethod -Uri "$URI" -Method Post -Body $JSONBody -ContentType "application/json" -Credential $Credential -Insecure
@@ -412,19 +407,8 @@ $VMname
 
 					$DGuuid = $VMTags.uuid
 
-					ConfigureDataGroup -DataGroupName datalist-COSCA-oor
-					ConfigureDataGroup -DataGroupName datalist-COSUS-oor
-					ConfigureDataGroup -DataGroupName datalist-cacheable-assets-COSCA
-					ConfigureDataGroup -DataGroupName datalist-cacheable-assets-COSUS
-					ConfigureDataGroup -DataGroupName datalist-cacheable-assets-SPLUS
-					ConfigureDataGroup -DataGroupName datalist-cacheable-assets-images3
-					ConfigureDataGroup -DataGroupName datalist-costco-networks
-					ConfigureDataGroup -DataGroupName datalist-etc-pools
-					ConfigureDataGroup -DataGroupName datalist-http-method-restricted
-					ConfigureDataGroup -DataGroupName datalist-pni-VPN
-					ConfigureDataGroup -DataGroupName datalist-pni-networks
-					ConfigureDataGroup -DataGroupName datalist-pni-outage
-					ConfigureDataGroup -DataGroupName datalist-qualys
+					ConfigureDataGroup -DataGroupName test-DG
+					
                 
 					#Update DataGroup Tag
 					$DGTag = "True"
@@ -445,7 +429,7 @@ $VMname
 # Function to push HTTP Profile Configuration to F5s
 	function ConfigureHTTPProfile ($HTTPProfileName)
 	{
-		$URI = "https://github-key.azurewebsites.net/content/" + $Key + "/master/iWorkflow/iWorkflow/HTTP-Profiles/" + $HTTPProfileName + ".json"
+		$URI = "https://raw.githubusercontent.com/correiap/iWorkflow/master/HTTP-Profiles/" + $HTTPProfileName + ".json"
     	$JSONBody = Invoke-RestMethod -Uri "$URI" | ConvertTo-Json
     	$URI = "https://" + $iworkflowMgmt + "/mgmt/shared/resolver/device-groups/cm-cloud-managed-devices/devices/" + $HPuuid + "/rest-proxy/mgmt/tm/ltm/profile/http"
     	$HPPost = Invoke-RestMethod -Uri "$URI" -Method Post -Body $JSONBody -ContentType "application/json" -Credential $Credential -Insecure

@@ -15,10 +15,6 @@ param(
 
 	[Parameter(Mandatory=$True)]
     [string]
-	$Key,
-
-    [Parameter(Mandatory=$True)]
-    [string]
 	$Subscription,
 
     [Parameter(Mandatory=$True)]
@@ -153,14 +149,14 @@ function DeployiAppService ($iAppName, $iAppIP, $iAppPort, $iAppPoolIP) {
 					if ($iAppPort -eq 80) {
     
 						Write-Output "Deploy iApp for Port 80 - HTTP Service"
-						$TemplateURI = "https://github-key.azurewebsites.net/content/" + $Key + "/master/iWorkflow/iWorkflow/service_json/HTTP_service_v2.0.004.json"
+						$TemplateURI = "https://raw.githubusercontent.com/correiap/iWorkflow/master/service_json/HTTP_service_v2.0.004.json"
 						$JSONBody = (Invoke-WebRequest -Uri "$TemplateURI" -UseBasicParsing).Content
                         
                         $iRuleArray = $iRuleArray
 						For ($j=0; $j -le 9; $j++) {
     
 							$iRule = $iRuleArray[$j]
-							$iRuleLink = "irule:urloptional=https://raw.githubusercontent.com/correiap/iWorklow-Test/master/" + $iRule + ".irule"
+							$iRuleLink = "irule:urloptional=https://raw.githubusercontent.com/correiap/iWorkflow/master/irules/" + $iRule + ".irule"
 							$JSONBody = $JSONBody -replace "irule:urloptional=appsvcs_irule$j", $iRuleLink
 
 							}
@@ -181,7 +177,7 @@ function DeployiAppService ($iAppName, $iAppIP, $iAppPort, $iAppPoolIP) {
 					} elseif ($iAppPort -eq 443) {
             
 						Write-Output "Deploy iApp for Port443 - HTTPS Service"
-                        $TemplateURI = "https://github-key.azurewebsites.net/content/" + $Key + "/master/iWorkflow/iWorkflow/service_json/HTTPS_service_v2.0.004.json"
+                        $TemplateURI = "https://raw.githubusercontent.com/correiap/iWorkflow/master/service_json/HTTPS_service_v2.0.004.json"
 						$JSONBody = (Invoke-WebRequest -Uri "$TemplateURI" -UseBasicParsing).Content
 	
     
@@ -189,7 +185,7 @@ function DeployiAppService ($iAppName, $iAppIP, $iAppPort, $iAppPoolIP) {
 						For ($j=0; $j -le 9; $j++) {
     
 							$iRule = $iRuleArray[$j]
-							$iRuleLink = "irule:urloptional=https://raw.githubusercontent.com/correiap/iWorklow-Test/master/" + $iRule + ".irule"
+							$iRuleLink = "irule:urloptional=https://raw.githubusercontent.com/correiap/iWorkflow/master/irules/" + $iRule + ".irule"
 							$JSONBody = $JSONBody -replace "irule:urloptional=appsvcs_irule$j", $iRuleLink
     
 							}
@@ -215,7 +211,7 @@ function DeployiAppService ($iAppName, $iAppIP, $iAppPort, $iAppPoolIP) {
 				else {
 
 					Write-Output "Deploy iApp for Port $iAppPort - Non-Standard Service"
-                    $TemplateURI = "https://github-key.azurewebsites.net/content/" + $Key + "/master/iWorkflow/iWorkflow/service_json/Non-Standard_service_v2.0.004.json"
+                    $TemplateURI = "https://raw.githubusercontent.com/correiap/iWorkflow/master/service_json/Non-Standard_service_v2.0.004.json"
 					$JSONBody = (Invoke-WebRequest -Uri "$TemplateURI" -UseBasicParsing).Content
 	
     
@@ -223,7 +219,7 @@ function DeployiAppService ($iAppName, $iAppIP, $iAppPort, $iAppPoolIP) {
 						For ($j=0; $j -le 9; $j++) {
     
 						$iRule = $iRuleArray[$j]
-						$iRuleLink = "irule:urloptional=https://raw.githubusercontent.com/correiap/iWorklow-Test/master/" + $iRule + ".irule"
+						$iRuleLink = "irule:urloptional=https://raw.githubusercontent.com/correiap/iWorkflow/master/irules/" + $iRule + ".irule"
 						$JSONBody = $JSONBody -replace "irule:urloptional=appsvcs_irule$j", $iRuleLink
     
 						}
